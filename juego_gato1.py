@@ -57,7 +57,9 @@ def tablero_lleno(tablero):
     for fila in tablero:
         if " " in fila:
             return False
-    return True2
+    return True
+
+
 
 def movimiento_ia(tablero):
     casillas_vacias = [(i, j) for i in range(3) for j in range(3) if tablero[i][j] == " "]
@@ -66,34 +68,48 @@ def movimiento_ia(tablero):
         tablero[fila][columna] = "O"
 
 def juego_completo():
-    tablero = crear_tablero()
-    jugador_actual = "X"
-
+    victorias_x = 0
+    victorias_o = 0
 
     while True:
-        imprimir_tablero(tablero)
-        print(f"Turno de {jugador_actual}")
+        tablero = crear_tablero()
+        jugador_actual = "X"
 
-        if jugador_actual == "X":
-            movimiento_jugador(tablero, jugador_actual)
-        else:
-            movimiento_ia(tablero)
-
-
-        if hay_ganador(tablero):
+        while True:
             imprimir_tablero(tablero)
-            print(f"¡{jugador_actual} ha ganado!")
-            break
+            print(f"Turno de {jugador_actual}")
 
-        if tablero_lleno(tablero):
-            imprimir_tablero(tablero)
-            print("¡Empate!")
-            break
+            if jugador_actual == "X":
+                movimiento_jugador(tablero, jugador_actual)
+            else:
+                movimiento_ia(tablero)
 
-        if(jugador_actual=="O"):
-            jugador_actual="X"
-        else:
-            jugador_actual = "O"
+
+            if hay_ganador(tablero):
+                imprimir_tablero(tablero)
+                print(f"¡{jugador_actual} ha ganado!")
+                if jugador_actual == "X":
+                    victorias_x += 1
+                else:
+                    victorias_o += 1
+                break
+
+            if tablero_lleno(tablero):
+                imprimir_tablero(tablero)
+                print("¡Empate!")
+                break
+
+            if(jugador_actual=="O"):
+                jugador_actual="X"
+            else:
+                jugador_actual = "O"
+
+        print(f"Puntuación: Jugador X - {victorias_x}, Jugador O - {victorias_o}")
+
+        jugar_de_nuevo = input("¿Quieres jugar de nuevo? (s/n): ").lower()
+        if jugar_de_nuevo != 's':
+            break
 
 
 juego_completo()
+22
