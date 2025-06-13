@@ -60,12 +60,33 @@ def tablero_lleno(tablero):
     return True
 
 
-
 def movimiento_ia(tablero):
+    # Check if AI can win in the next move
+    for i in range(3):
+        for j in range(3):
+            if tablero[i][j] == " ":
+                tablero[i][j] = "O"
+                if hay_ganador(tablero):
+                    return
+                tablero[i][j] = " " # Undo the move
+
+    # Check if player can win in the next move and block them
+    for i in range(3):
+        for j in range(3):
+            if tablero[i][j] == " ":
+                tablero[i][j] = "X" # Temporarily place player's move
+                if hay_ganador(tablero):
+                    tablero[i][j] = "O" # Block the player
+                    return
+                tablero[i][j] = " " # Undo the player's temporary move
+
+
+    # If no winning or blocking move, make a random move
     casillas_vacias = [(i, j) for i in range(3) for j in range(3) if tablero[i][j] == " "]
     if casillas_vacias:
         fila, columna = random.choice(casillas_vacias)
         tablero[fila][columna] = "O"
+
 
 def juego_completo():
     victorias_x = 0
@@ -112,4 +133,15 @@ def juego_completo():
 
 
 juego_completo()
-22
+
+"""# Task
+Refactor the provided Python code for a Tic-Tac-Toe game. The refactoring should include: 1. Eliminating unnecessary or duplicate functions. 2. Ensuring the game correctly detects ties using the `tablero_lleno` function. 3. Adding functionality to track and display the number of games won by each player (e.g., using `victorias_x` and `victorias_y` variables). 4. Improving the AI's move selection logic in the `movimiento_ia` function to be more strategic (e.g., prioritize winning moves and blocking player winning moves).
+
+## Analyze current ai
+
+### Subtask:
+Review the existing `movimiento_ia` function to understand its current logic (random move selection).
+
+**Reasoning**:
+The subtask is to understand the current logic of the `movimiento_ia` function. By examining the code and describing its functionality, I can fulfill this requirement.
+"""
